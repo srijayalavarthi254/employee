@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Data Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h2>Employee Data Table</h2>
+    <table id="employeeTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Experience</th>
+                <th>Designation</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Table body will be populated dynamically -->
+        </tbody>
+    </table>
+
+    <script>
+        // Function to fetch employee data from the server and update the table
+        async function fetchAndDisplayEmployeeData() {
+            const response = await fetch('/api/employees');
+            const data = await response.json();
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+            data.forEach(employee => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${employee.id}</td>
+                    <td>${employee.name}</td>
+                    <td>${employee.email}</td>
+                    <td>${employee.department}</td>
+                    <td>${employee.experience}</td>
+                    <td>${employee.designation}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Initial fetch and display
+        fetchAndDisplayEmployeeData();
+    </script>
+</body>
+</html>
